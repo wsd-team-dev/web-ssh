@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="msapplication-tap-highlight" content="no">
+		<meta name="description" content="">
+		<title>SSH Sync</title>
+		<meta name="theme-color" content="#EE6E73">
+		<!-- CSS-->
+		<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
+		<link href="css/overrides.css" type="text/css" rel="stylesheet" media="screen,projection">
+		<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	</head>
+	<body>
+
+		<header>
+
+			<div class="container">
+				<a href="#" data-activates="nav-mobile"
+				   class="button-collapse top-nav full hide-on-large-only">
+					<i class="material-icons">menu</i>
+				</a>
+			</div>
+			<ul id="nav-mobile" class="side-nav fixed">
+
+				<li class="search">
+					<div class="search-wrapper card">
+						<input id="search"><i class="material-icons">search</i>
+						<div class="search-results"></div>
+					</div>
+				</li>
+
+				{{#each config.hosts as |root|}}
+					{{#each root as |group key|}}
+
+						<li class="no-padding">
+							<ul class="collapsible collapsible-accordion">
+								<li class="bold">
+									<a class="collapsible-header waves-effect waves-teal">{{key}}</a>
+									<div class="collapsible-body">
+										<ul>
+											{{#each group as |subgroup subkey|}}
+											{{!-- <li><a href="#">{{subgroup.name}}</a></li> --}}
+
+												<li class="no-padding connect" data-config-id="{{subgroup.id}}">
+													<ul class="collapsible collapsible-accordion">
+														<li class="bold">
+															<a class="collapsible-header waves-effect waves-teal">  &#128421; &nbsp; {{subgroup.name}}</a>
+															{{#if subgroup.shortcuts}}
+																<div class="collapsible-body">
+																	<ul>
+																		{{#each subgroup.shortcuts as |sc key|}}
+																			<li>
+																				<a class="shortcut" data-shortcut-id="{{key}}"> &#9889; &nbsp; {{sc.name}}</a>
+																				<div class="" style="display:none;">
+																					<i class="md-icon dp48">edit</i>
+																				</div>
+																			</li>
+																		{{/each}}
+																	</ul>
+																</div>
+															{{/if}}
+														</li>
+													</ul>
+
+												</li>
+
+
+											{{/each}}
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</li>
+
+					{{/each}}
+				{{/each}}
+
+			</ul>
+		</header>
+		<main>
+			<div class="container intro">
+				<div class="row">
+
+					<div class="col s12 m9 l10">
+
+						<div id="input" class="section scrollspy">
+							<p class="caption">
+								This is a Web based terminal designed for quick parallel SSH access.
+								It supports TTY, so you can edit files directly on the server.
+								For configuration it uses the standard `<a href="http://fitztrev.github.io/shuttle/">shuttle</a>`
+								config, so you can use that up if you have one already.<br><br>
+
+								Once config is populated, just click on the desired connection
+								on the left which should open up a new terminal for you.<br><br>
+
+								It supports predefined shortcuts too (see default config)
+							</p>
+						</div>
+
+						<div id="terminal"></div>
+
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<script src="js/jquery.js"></script>
+		<script src="js/materialize.js"></script>
+		<script src="js/hterm_all.js"></script>
+		<script src="js/app.js"></script>
+
+	</body>
+</html>

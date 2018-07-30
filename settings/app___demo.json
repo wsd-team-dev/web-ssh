@@ -1,0 +1,37 @@
+{
+	"app_port"      : 9000,
+	"cli_port_start": 55001,
+	"hosts"         : [
+		{
+			"Folder 1": [
+				{
+					"name": "Web address 1 (10.0.4.2)",
+					"cmd" : "ssh -t myname@10.0.4.2",
+					"shortcuts": [ 16 ]
+				},
+				{
+					"name": "Web address 2 (10.0.14.11)",
+					"cmd" : "ssh -t myname@10.0.14.11"
+				}
+			]
+		},
+		{
+			"Folder 2": [
+				{
+					"name": "Web address 3 (10.0.1.4)",
+					"cmd": "ssh -t pfeher@10.0.1.4"
+				}
+			]
+		}
+	],
+	"shortcuts"     : {
+		"16": {
+			"name"    : "Deploy",
+			"commands": [
+				"if [ \"$(whoami)\" != \"root\" ] ; then sudo su - ; fi",
+				"ssh deploy@10.0.14.11",
+				"./deploy"
+			]
+		}
+	}
+}

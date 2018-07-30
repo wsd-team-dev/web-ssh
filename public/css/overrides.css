@@ -1,0 +1,67 @@
+html, body, main, .terminal { height: 100%; }
+.terminal iframe { position: relative!important; }
+
+#nav-mobile li.search {
+
+	position: relative;
+	margin: 15px 0;
+	top: 0px;
+
+}
+
+ul.side-nav.fixed ul.collapsible-accordion .collapsible-body li a {
+	font-weight: 400;
+	padding: 10px 37.5px 10px 30px;
+	letter-spacing: 0px;
+	line-height: 1em;
+	border-bottom: 1px dotted #eaeaea;
+	height: auto;
+}
+
+ul.side-nav.fixed ul.collapsible-accordion .collapsible-body ul.collapsible-accordion .collapsible-body li a {
+	padding-left: 40px;
+}
+
+header, main, footer {
+	padding-left: 400px;
+}
+
+.side-nav {
+	width: 400px;
+}
+
+.side-nav.searching > li > ul > li > .collapsible-body {
+	display: block!important;
+}
+
+.connected > ul > li > a {
+	background-color: #d8e89d!important;
+}
+
+.connected.selected > ul > li > a {
+	background-color: #94d694!important;
+}
+
+.connected.connected .collapsible-body {
+	display: block!important;
+	height: auto!important;
+}
+
+.terminal iframe ~ div {
+	top: 10px!important;
+	right: 10px!important;
+	position: absolute;
+	left: initial!important;
+}
+
+@media only screen and (max-width : 992px) {
+	header, main, footer {
+		padding-left: 0;
+	}
+}
+
+@media only screen and (max-width : 992px) {
+	header {
+		display: none;
+	}
+}
