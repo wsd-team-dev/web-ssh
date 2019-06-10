@@ -45,16 +45,24 @@
 											{{#each group as |subgroup subkey|}}
 											{{!-- <li><a href="#">{{subgroup.name}}</a></li> --}}
 
-												<li class="no-padding connect" data-config-id="{{subgroup.id}}">
+												<li class="no-padding connect {{subgroup.type}}" data-config-id="{{subgroup.id}}">
 													<ul class="collapsible collapsible-accordion">
 														<li class="bold">
-															<a class="collapsible-header waves-effect waves-teal">  &#128421; &nbsp; {{subgroup.name}}</a>
+															{{#if subgroup.type}}
+																<a class="collapsible-header waves-effect waves-teal">
+																	&#128273; &nbsp; {{subgroup.name}}</a>
+															{{else}}
+																<a class="collapsible-header waves-effect waves-teal">
+																	&#128421; &nbsp; {{subgroup.name}}</a>
+															{{/if}}
 															{{#if subgroup.shortcuts}}
 																<div class="collapsible-body">
 																	<ul>
 																		{{#each subgroup.shortcuts as |sc key|}}
 																			<li>
-																				<a class="shortcut" data-shortcut-id="{{key}}"> &#9889; &nbsp; {{sc.name}}</a>
+																				<a class="shortcut"
+																				   data-shortcut-id="{{key}}"> &#9889;
+																				                               &nbsp; {{sc.name}}</a>
 																				<div class="" style="display:none;">
 																					<i class="md-icon dp48">edit</i>
 																				</div>

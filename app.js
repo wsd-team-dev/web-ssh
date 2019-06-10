@@ -7,7 +7,7 @@ const app = express ();
 const configService = require ( './services/config' );
 const config = configService.decorateAppConfig( require ( './settings/app.json' ) );
 const terminal = require ( './services/terminal' ) ( config );
-
+const token = require ( './services/token' ) ( config );
 
 app.engine ( 'handlebars', hbs ( { defaultLayout: 'main' } ) );
 app.set ( 'view engine', 'handlebars' );
@@ -23,6 +23,9 @@ app.use ( '/', express.static ( path.join ( __dirname, 'public' ) ) );
 
 // Request new terminal
 app.get ( '/open/:id', terminal );
+
+// Generate token
+app.get ( '/token/:id', token );
 
 // Create server
 http.createServer ( app ).listen ( config.app_port, function () {

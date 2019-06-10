@@ -75,16 +75,31 @@
 					// Append terminal container
 					$ ( 'main' ).append ( '<div class="terminal" id="' + ID + '"></div>' );
 
-					// create new connection
-					$.get ( "/open/" + ID, function ( data ) {
+					// If token request
+					if ( $ ( this ).hasClass ( 'token' )  ) {
 
-						console.log ( data );
+						// create new token
+						$.get ( "/token/" + ID, function ( data ) {
 
-						$ ( 'body' ).append ( `<script src="http://localhost:${data.config.port}/js/socket.io/socket.io.js">` );
+							$ ( this ).addClass ( 'connected' );
+							$ ( '#' + ID ).html( data );
 
-						setTimeout ( ( config ) => { App.createTerminal ( config ) }, 100, data.config );
+						} );
 
-					} );
+					} else {
+
+						// create new connection
+						$.get ( "/open/" + ID, function ( data ) {
+
+							console.log ( data );
+
+							$ ( 'body' ).append ( `<script src="http://localhost:${data.config.port}/js/socket.io/socket.io.js">` );
+
+							setTimeout ( ( config ) => { App.createTerminal ( config ) }, 100, data.config );
+
+						} );
+
+					}
 
 				}
 
