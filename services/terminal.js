@@ -3,7 +3,7 @@ const http = require('http');
 const https = require('https');
 const path = require('path');
 const server = require('socket.io');
-const pty = require('pty.js');
+const pty = require('node-pty');
 const fs = require('fs');
 
 module.exports = ( config ) => ( req, res ) => {
