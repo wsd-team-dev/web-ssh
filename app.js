@@ -5,18 +5,36 @@ const hbs = require ( 'express-handlebars' );
 const app = express ();
 
 const configService = require ( './services/config' );
-const config = configService.decorateAppConfig( require ( './settings/app.json' ) );
+global.config = configService.decorateAppConfig( require ( './settings/app.json' ) );
 const terminal = require ( './services/terminal' ) ( config );
 const token = require ( './services/token' ) ( config );
+const assetRegisterService = require ( './services/asset-register' ) ( config );
 
-app.engine ( 'handlebars', hbs ( { defaultLayout: 'main' } ) );
+app.engine ( 'handlebars', hbs ( {
+    defaultLayout: 'main',
+    helpers      : {
+        json: c => JSON.stringify ( c, null, 4 )
+    }
+} ) );
 app.set ( 'view engine', 'handlebars' );
 
 // Index page
-app.get ( '/', ( req, res ) => res.render ( 'index', {
-	layout : false,
-	config : config,
-} ) );
+app.get ( '/', async ( req, res ) => {
+
+    // Get asset register hosts
+    const assetHostsGroup = await assetRegisterService.getHosts ();
+
+    // Replace the configured hosts
+    config.hosts.push( assetHostsGroup );
+    global.config = configService.decorateAppConfig ( global.config );
+
+    // Serve the view
+    return res.render ( 'index', {
+        layout: false,
+        config: config,
+    } )
+
+} );
 
 // Static files
 app.use ( '/', express.static ( path.join ( __dirname, 'public' ) ) );
