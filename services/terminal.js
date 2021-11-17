@@ -1,10 +1,8 @@
 const express = require('express');
 const http = require('http');
 const https = require('https');
-const path = require('path');
 const server = require('socket.io');
 const pty = require('node-pty');
-const fs = require('fs');
 
 module.exports = ( config ) => ( req, res ) => {
 
@@ -24,11 +22,6 @@ module.exports = ( config ) => ( req, res ) => {
 
 	let app = express();
 
-	app.use((req, res, next) => {
-		res.append('Access-Control-Allow-Origin', ['*']);
-		next();
-	});
-
 	if (opts.https) {
 		httpserv = https.createServer(opts.ssl, app).listen(opts.port, function() {
 			console.log('Terminal listening on: https://localhost:' + opts.port);
@@ -39,8 +32,13 @@ module.exports = ( config ) => ( req, res ) => {
 		});
 	}
 
-	let io = server(httpserv,{path: '/js/socket.io'});
-	io.set('origins', '*:*');
+	let io = server(httpserv,{
+        path: '/js/socket.io',
+        cors: {
+            origin: '*'
+        }
+    });
+
 	io.on('connection', function(socket){
 		let sshuser = '';
 		let request = socket.request;
