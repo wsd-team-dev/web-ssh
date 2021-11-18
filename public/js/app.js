@@ -38,10 +38,15 @@
 				let val = $ ( '#search' ).val ();
 				if ( val.length > 2 ) {
 					$ ( '.side-nav' ).addClass ( 'searching' );
-					$ ( '.side-nav ul li ul a.collapsible-header' ).addClass ( 'hide' );
-					$ ( '.side-nav ul li ul a.collapsible-header:icontains("' + val + '")' ).removeClass ( 'hide' );
+					$ ( '.side-nav .subgroup a.collapsible-header' ).addClass ( 'hide' );
+                    $ ( '.side-nav .group > a.collapsible-header' ).addClass ( 'hide' );
+                    $ ( '.side-nav .subgroup a.collapsible-header:icontains("' + val + '")' ).each( function(k,v){
+                        $( v ).parents( '.group' ).find( '>a' ).removeClass( 'hide' );
+                        $( v ).removeClass ( 'hide' );
+                    } )
 				} else {
 					$ ( '.side-nav' ).removeClass ( 'searching' );
+                    $ ( '.side-nav a.collapsible-header' ).removeClass ( 'hide' );
 					$ ( '.side-nav ul li ul a.hide' ).removeClass ( 'hide' );
 				}
 

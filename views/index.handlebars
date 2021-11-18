@@ -38,14 +38,14 @@
 
 						<li class="no-padding">
 							<ul class="collapsible collapsible-accordion">
-								<li class="bold">
+								<li class="bold group">
 									<a class="collapsible-header waves-effect waves-teal">{{key}}</a>
 									<div class="collapsible-body">
 										<ul>
 											{{#each group as |subgroup subkey|}}
 											{{!-- <li><a href="#">{{subgroup.name}}</a></li> --}}
 
-												<li class="no-padding connect {{subgroup.type}}" data-config-id="{{subgroup.id}}">
+												<li class="no-padding connect subgroup {{subgroup.type}}" data-config-id="{{subgroup.id}}">
 													<ul class="collapsible collapsible-accordion">
 														<li class="bold" data-position="right" data-tooltip="{{subgroup.tooltip}}">
 															{{#if subgroup.type}}
