@@ -126,6 +126,8 @@
 
 			} );
 
+            $('[data-tooltip]').tooltip({html: true});
+
 		},
 
 		createTerminal: function ( config ) {
