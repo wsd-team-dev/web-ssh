@@ -27,8 +27,10 @@
 			var self = this;
 
 			jQuery.expr[ ':' ].icontains = function ( a, i, m ) {
-				return jQuery ( a ).text ().toUpperCase ()
-					.indexOf ( m[ 3 ].toUpperCase () ) >= 0;
+                let q = m[ 3 ].toUpperCase ();
+                let host = jQuery ( a ).text ().toUpperCase ();
+                let services = (jQuery ( a ).parent().data ('tooltip') || '').toUpperCase ();
+				return host.indexOf ( q ) >= 0 || services.indexOf( q ) >= 0;
 			};
 
 			// search
