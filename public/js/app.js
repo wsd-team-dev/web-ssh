@@ -26,6 +26,9 @@
 
 			var self = this;
 
+            // Load UI configs
+            this.getUiConfigs();
+
 			jQuery.expr[ ':' ].icontains = function ( a, i, m ) {
 				return jQuery ( a ).text ().toUpperCase ()
 					.indexOf ( m[ 3 ].toUpperCase () ) >= 0;
@@ -120,6 +123,16 @@
 			} );
 
 		},
+
+        getUiConfigs: function () {
+
+            try {
+                App.configs.ui = JSON.parse( jQuery( '#config' ).text() );
+            } catch ( e ) {
+                App.configs.ui = {};
+            }
+
+        },
 
 		createTerminal: function ( config ) {
 
