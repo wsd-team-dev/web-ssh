@@ -5,17 +5,20 @@ const hbs = require ( 'express-handlebars' );
 const app = express ();
 
 const configService = require ( './services/config' );
-global.config = configService.decorateAppConfig( require ( './settings/app.json' ) );
+global.config = configService.decorateAppConfig ( require ( './settings/app.json' ) );
+
 const terminal = require ( './services/terminal' ) ( config );
 const token = require ( './services/token' ) ( config );
 const assetRegisterService = require ( './services/asset-register' ) ( config );
 
-app.engine ( 'handlebars', hbs ( {
-    defaultLayout: 'main',
-    helpers      : {
-        json: c => JSON.stringify ( c, null, 4 )
+app.engine ( 'handlebars', hbs (
+    {
+        defaultLayout: 'main',
+        helpers      : {
+            json: c => JSON.stringify ( c, null, 4 )
+        }
     }
-} ) );
+) );
 app.set ( 'view engine', 'handlebars' );
 
 // Index page
@@ -24,15 +27,18 @@ app.get ( '/', async ( req, res ) => {
     // Get asset register hosts
     const assetHostsGroup = await assetRegisterService.getHosts ();
 
-    // Replace the configured hosts
-    config.hosts.push( assetHostsGroup );
+    // Update hosts
+    config.hosts[ 0 ] = {
+        ...config.hosts[ 0 ],
+        ...assetHostsGroup
+    };
     global.config = configService.decorateAppConfig ( global.config );
 
     // Serve the view
     return res.render ( 'index', {
         layout: false,
-        config: config,
-    } )
+        config: config
+    } );
 
 } );
 
@@ -46,6 +52,7 @@ app.get ( '/open/:id', terminal );
 app.get ( '/token/:id', token );
 
 // Create server
-http.createServer ( app ).listen ( config.app_port, function () {
-	console.log ( 'App server listening on: http://localhost:' + config.app_port );
-} );
+http.createServer ( app )
+    .listen ( config.app_port, function () {
+        console.log ( 'App server listening on: http://localhost:' + config.app_port );
+    } );
