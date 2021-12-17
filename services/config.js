@@ -24,7 +24,6 @@ const _default = {
 	"sslkey" : null,
 	"sslcert": null,
 	"sshhost": null,
-	"sshport": 22,
 	"sshuser": null,
 	"sshauth": 'publickey,password,keyboard-interactive'
 };
@@ -56,7 +55,7 @@ let configLoader = {
 		cnf.sshhost = cnf.sshhost || cstr[ 2 ];
 		cnf.sshuser = cnf.sshuser || cstr[ 1 ];
 		cnf.sshauth = 'publickey';
-		cnf.sshport = 22;
+		cnf.sshport = cnf.sshport || 22;
 		cnf.id = uuid();
 
 		let sc = cnf.shortcuts;
