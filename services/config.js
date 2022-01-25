@@ -50,12 +50,13 @@ let configLoader = {
 
 		// look for ssh user/ip combo
 		let cstr = cnf.cmd.match ( /(\w+)\@(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/i );
+        let cport = cnf.cmd.match ( /\-p (\d+)/i ) || [];
 
 		// append if missing from config
 		cnf.sshhost = cnf.sshhost || cstr[ 2 ];
 		cnf.sshuser = cnf.sshuser || cstr[ 1 ];
 		cnf.sshauth = 'publickey';
-		cnf.sshport = cnf.sshport || 22;
+		cnf.sshport = cnf.sshport || cport[1] || 22;
 		cnf.id = uuid();
 
 		let sc = cnf.shortcuts;
@@ -97,6 +98,9 @@ let configLoader = {
 			} );
 
 		} );
+
+        // Don't decorate it twice
+        cnf.decorated = true;
 
 		return cnf;
 

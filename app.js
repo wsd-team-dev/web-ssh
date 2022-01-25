@@ -5,7 +5,7 @@ const hbs = require ( 'express-handlebars' );
 const app = express ();
 
 const configService = require ( './services/config' );
-global.config = configService.decorateAppConfig ( require ( './settings/app.json' ) );
+global.config = require ( './settings/app.json' );
 
 const terminal = require ( './services/terminal' ) ( config );
 const token = require ( './services/token' ) ( config );
@@ -24,15 +24,21 @@ app.set ( 'view engine', 'handlebars' );
 // Index page
 app.get ( '/', async ( req, res ) => {
 
-    // Get asset register hosts
-    const assetHostsGroup = await assetRegisterService.getHosts ();
+    // Check asset register
+    if ( config.enable_asset_register !== false ) {
+        // Get asset register hosts
+        const assetHostsGroup = await assetRegisterService.getHosts ();
+        // Update hosts
+        config.hosts[ 0 ] = {
+            ...config.hosts[ 0 ],
+            ...assetHostsGroup
+        };
+    }
 
-    // Update hosts
-    config.hosts[ 0 ] = {
-        ...config.hosts[ 0 ],
-        ...assetHostsGroup
-    };
-    global.config = configService.decorateAppConfig ( global.config );
+    // Decorate updated configs
+    if ( !global.config.decorated ) {
+        global.config = configService.decorateAppConfig ( global.config );
+    }
 
     // Serve the view
     return res.render ( 'index', {
