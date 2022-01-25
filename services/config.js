@@ -99,6 +99,9 @@ let configLoader = {
 
 		} );
 
+        // Don't decorate it twice
+        cnf.decorated = true;
+
 		return cnf;
 
 	}
