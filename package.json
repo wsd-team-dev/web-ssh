@@ -2,7 +2,7 @@
   "name": "web-ssh",
   "version": "0.1.0",
   "dependencies": {
-    "express": "3.5.1",
+    "express": "4.17.3",
     "express-handlebars": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
