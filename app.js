@@ -1,15 +1,21 @@
-const path = require ( 'path' );
-const http = require ( 'http' );
-const express = require ( 'express' );
-const hbs = require ( 'express-handlebars' );
+import path from 'path';
+import http from 'http';
+import express from 'express';
+import { engine as hbs } from 'express-handlebars';
 const app = express ();
 
-const configService = require ( './services/config' );
-global.config = require ( './settings/app.json' );
+import configService from './services/config.js';
+import appConfig from './settings/app.json' assert { type: 'json' };
 
-const terminal = require ( './services/terminal' ) ( config );
-const token = require ( './services/token' ) ( config );
-const assetRegisterService = require ( './services/asset-register' ) ( config );
+import terminal from './services/terminal.js';
+import token from './services/token.js';
+import assetRegisterService from './services/asset-register.js';
+
+global.config = appConfig;
+
+const terminalInstance = terminal(config);
+const tokenInstance = token(config);
+const assetRegisterInstance = assetRegisterService(config);
 
 app.engine ( 'handlebars', hbs (
     {
@@ -27,7 +33,7 @@ app.get ( '/', async ( req, res ) => {
     // Check asset register
     if ( config.enable_asset_register !== false ) {
         // Get asset register hosts
-        const assetHostsGroup = await assetRegisterService.getHosts ();
+        const assetHostsGroup = await assetRegisterInstance.getHosts ();
         // Update hosts
         config.hosts[ 0 ] = {
             ...config.hosts[ 0 ],
@@ -49,13 +55,13 @@ app.get ( '/', async ( req, res ) => {
 } );
 
 // Static files
-app.use ( '/', express.static ( path.join ( __dirname, 'public' ) ) );
+app.use ( '/', express.static ( 'public' ) );
 
 // Request new terminal
-app.get ( '/open/:id', terminal );
+app.get ( '/open/:id', terminalInstance );
 
 // Generate token
-app.get ( '/token/:id', token );
+app.get ( '/token/:id', tokenInstance );
 
 // Create server
 http.createServer ( app )

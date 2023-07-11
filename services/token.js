@@ -1,6 +1,6 @@
-const jwt = require ( 'jsonwebtoken' );
-const fetch = require ( 'node-fetch' );
-const querystring = require ( 'querystring' );
+import jwt from 'jsonwebtoken';
+import fetch from 'node-fetch';
+import querystring from 'querystring';
 
 const _cfg = {
 	"jwt_secret"    : "C15nHbE8i62ftaVb1xGYM0R97r79Y819",
@@ -53,7 +53,7 @@ const getBearerToken = ( config ) => {
 
 };
 
-module.exports = ( config ) => ( req, res ) => {
+export default ( config ) => ( req, res ) => {
 
 	let config_id = req.params.id;
 	let opts = config._index[ config_id ];

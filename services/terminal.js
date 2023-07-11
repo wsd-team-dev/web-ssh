@@ -1,10 +1,10 @@
-const express = require('express');
-const http = require('http');
-const https = require('https');
-const server = require('socket.io');
-const pty = require('node-pty');
+import express from 'express';
+import http from 'http';
+import https from 'https';
+import { Server as server } from "socket.io";
+import pty from 'node-pty';
 
-module.exports = ( config ) => ( req, res ) => {
+export default ( config ) => ( req, res ) => {
 
 	let config_id = req.params.id;
 	let opts = config._index[ config_id ];
@@ -32,7 +32,7 @@ module.exports = ( config ) => ( req, res ) => {
 		});
 	}
 
-	let io = server(httpserv,{
+	let io = new server(httpserv,{
         path: '/js/socket.io',
         cors: {
             origin: '*'
@@ -43,7 +43,8 @@ module.exports = ( config ) => ( req, res ) => {
 		let sshuser = '';
 		let request = socket.request;
 		console.log((new Date()) + ' Connection accepted.');
-		if (match = request.headers.referer.match('/wetty/ssh/.+$')) {
+        let match = request.headers.referer.match('/wetty/ssh/.+$');
+		if (match) {
 			sshuser = match[0].replace('/wetty/ssh/', '') + '@';
 		} else if (opts.sshuser) {
 			sshuser = opts.sshuser + '@';

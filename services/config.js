@@ -14,10 +14,10 @@
 *
 * */
 
-const fs = require ( 'fs' );
-const path = require ( 'path' );
-const _ = require ( 'lodash' );
-const uuid = require ( 'uuid' ).v4;
+import fs from 'fs';
+import path from 'path';
+import _ from 'lodash';
+import { v4 as uuid } from 'uuid';
 
 const _default = {
 	"https"  : false,
@@ -108,4 +108,4 @@ let configLoader = {
 
 };
 
-module.exports = configLoader;
+export default configLoader;

@@ -1,8 +1,9 @@
-const fetch = require ( 'node-fetch' );
-const { get, startCase, groupBy } = require ( 'lodash' );
+import fetch from 'node-fetch';
+import { get, startCase, groupBy } from 'lodash-es';
+
 let hosts;
 
-module.exports = ( config ) => {
+export default ( config ) => {
 
 	return {
 
