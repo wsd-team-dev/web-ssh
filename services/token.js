@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import fetch from 'node-fetch';
 import querystring from 'querystring';
+import { v4 as uuid } from 'uuid';
 
 const _cfg = {
 	"jwt_secret"    : "C15nHbE8i62ftaVb1xGYM0R97r79Y819",
@@ -22,7 +23,7 @@ const getJWTToken = ( config ) => {
 		_cfg.jwt_secret,
 		{
 			algorithm: _cfg.jwt_algorithm,
-			jwtid    : require ( 'uuid' ).v4 (),
+			jwtid    : uuid (),
 			expiresIn: _cfg.jwt_expiration
 		}
 	);
